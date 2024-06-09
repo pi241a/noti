@@ -37,6 +37,7 @@ Noti can send notifications on a number of services.
 | Twilio     |   ✔   |   ✔   |    ✔    |
 | GChat      |   ✔   |   ✔   |    ✔    |
 | ntfy       |   ✔   |   ✔   |    ✔    |
+| LINENotify |   ✔   |   ✔   |    ✔    |
 
 
 ## Installation
@@ -127,6 +128,10 @@ curl -L $(curl -s https://api.github.com/repos/variadico/noti/releases/latest | 
     Trigger a ntfy notification.  This requires `ntfy.topic` be set.  Optionally, 
     `ntfy.url` can also be set to use a different ntfy server.
 
+--linenotify
+    Trigger a LINE Notify notification. This requires `linenotify.token` to be set. Optionally,
+    `linenotify.notificationDisabled` can be set to disable the notification.
+
 -w , --pwatch
     Monitor a process by PID and trigger a notification when the pid
     disappears.
@@ -182,6 +187,8 @@ curl -L $(curl -s https://api.github.com/repos/variadico/noti/releases/latest | 
 * `NOTI_CHANIFY_SOUND`
 * `NOTI_CHANIFY_PRIORITY`
 * `NOTI_CHANIFY_INTERUPTIONLEVEL`
+* `NOTI_LINENOTIFY_TOKEN`
+* `NOTI_LINENOTIFY_NOTIFICATION_DISABLED`
 
 
 ## Files
@@ -354,6 +361,13 @@ url
 topic
     Topic ID to send messages to
 
+LINENOTIFY
+
+token
+    A token of LINE Notify. You can get it from https://notify-bot.line.me/my/
+
+notificationDisabled
+    Whether to disable the notification. Default is false.
 ```
 
 ## Examples
@@ -434,6 +448,9 @@ chanify:
 ntfy:
   url: https://my.ntfy.url.com
   topic: 'xxxxxxxxxxxxxxxx'
+linenotify:
+  token: 'xxxxxxxxxxxxxxxx'
+  notificationDisabled: false
 ```
 
 ## Setting up cloud accounts
@@ -502,6 +519,9 @@ Configure a Google Spaces webhook (see [setting up webhooks](https://developers.
 
 Open up Chanify on your device, pick a channel and create a token. You have an option of token with best-by date or token with no expiration. Set the token as `chanify.channelURL` with the default host `api.chanify.net`. Your `chanify.channelURL` should look like this: `https://api.chanify.net/v1/sender/<TOKEN>`
 To create token's expiration click on the ![Shield button](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAcCAYAAACdz7SqAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAHaADAAQAAAABAAAAHAAAAADjGz/hAAADAklEQVRIDeVVTShEURT+5keJkgXSFJlSFhSRNNlYkGLBLDVFWVIaYaMkpSibWdhZMQ2JjYWIMpOiJguUn2k2itUsSKKmEcc9J2+aN97MvEnZOPV6752/75x77/muBQCp50/F+qdo32D/B9Sez/LW1NSgq6sLjY2NeHx8RCgUwsnJCRKJRD5pYFHeWQ9SVVUVenp65Kmrq5PkT09PKCkpgd1ux+vrKyYnJwX8/f3dFLghaGFhIfr6+uB2u9HU1CSJYrEYDg4OsLe3h/PzcwHt7u5Gb28v2tra8PLygv39fWxubuL6+jonOHeqewKBAEUiETo+Pqbp6Wlqbm4mi8Wi80mN8Xg8tLa2Rjc3N3R7e0sdHR0Zfb/j9ICs5EC/309WqzVXsM7OxXGx4+PjOn1qgfxtODKqKzw/P+Pz81P5ZBdVGJxOpzjxXrNwfDbJ6/QaJRocHJTTe3d3Z2Q21P0KlEfI6/WipaVFkptZGXY0XF7D8tKUvKyLi4uylB8fH2nW7L+mQPv7+8HzmirDw8MyTj6fL6nmQsxITi+e2bm5OaiRQFlZmeSsra3F2NgYzs7OsLq6agZH55MRVKs6Ho9DzSoqKyuxvLyMoqIiLCwsgNmH9an7qMUQ8cRkFsODxNSmdcWhu7u7cDgcmJiYwM7Ojiz1zMwMHh4edJnLy8vl/+3tTadP/zHsNBqNoqGhQbrTAlZWVrC+vi6ATPRbW1uaKfnu7OyUb47PJT/YQ/GuMIvaL1J7mrQzFTLrpOpUcrG3t7fT1dUVHR4eUkFBQTJGs6e9f9IgJ19aWhLg7e1tqq6uzppkaGhIAC8uLkhde1l9v8F/grLBZrPR1NSU8PDl5SWNjIwYdlhfXy/FBYNBUltiBpB9jEE1fWtrK6nrTBIfHR2RusoksTpoND8/LzfL7OwsFRcXmwUkZmZBZvRMwpf1wMAARkdHUVpaivv7e1RUVIBn+PT0FEwU+YrpCrkbRQoUDodpY2ODXC6X6VhVVNLXVKf5dpHL33BOcwX91v5/QL8AnJm6qDdN5A0AAAAASUVORK5CYII=) Shield button
+
+### LINE Notify
+Log into [LINE Notify dashboard](https://notify-bot.line.me/my/). Next, click on "Generate token". The text that appears will be what you'll set `linenotify.token` in noti.
 
 ## Reporting bugs
 
