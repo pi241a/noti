@@ -11,6 +11,7 @@ import (
 	"github.com/variadico/noti/service/chanify"
 	"github.com/variadico/noti/service/gchat"
 	"github.com/variadico/noti/service/keybase"
+	"github.com/variadico/noti/service/linenotify"
 	"github.com/variadico/noti/service/mattermost"
 	"github.com/variadico/noti/service/ntfy"
 	"github.com/variadico/noti/service/pushbullet"
@@ -188,5 +189,13 @@ func getNtfy(title, message string, v *viper.Viper) notification {
 		Title:   title,
 		Message: message,
 		Client:  httpClient,
+	}
+}
+
+func getLINENotify(title, message string, v *viper.Viper) notification {
+	return &linenotify.Notification{
+		Token:                v.GetString("linenotify.token"),
+		Message:              fmt.Sprintf("%s\n%s", title, message),
+		NotificationDisabled: v.GetBool("linenotify.notificationDisabled"),
 	}
 }

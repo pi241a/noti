@@ -85,6 +85,9 @@ var baseDefaults = map[string]interface{}{
 
 	"ntfy.url":   "https://ntfy.sh/",
 	"ntfy.topic": "",
+
+	"liennotify.token":                "",
+	"linenotify.notificationDisabled": false,
 }
 
 func setNotiDefaults(v *viper.Viper) {
@@ -157,6 +160,9 @@ var keyEnvBindings = map[string]string{
 
 	"ntfy.url":   "NOTI_NTFY_URL",
 	"ntfy.topic": "NOTI_NTFY_TOPIC",
+
+	"linenotify.token":                "NOTI_LINENOTIFY_TOKEN",
+	"linenotify.notificationDisabled": "NOTI_LINENOTIFY_NOTIFICATION_DISABLED",
 }
 
 var keyEnvBindingsDeprecated = map[string]string{
@@ -282,6 +288,7 @@ func enabledFromSlice(defaults []string) map[string]bool {
 		"twilio":     false,
 		"chanify":    false,
 		"ntfy":       false,
+		"linenotify": false,
 	}
 
 	for _, name := range defaults {
@@ -313,6 +320,7 @@ func hasServiceFlags(flags *pflag.FlagSet) bool {
 		"twilio":     false,
 		"chanify":    false,
 		"ntfy":       false,
+		"linenotify": false,
 	}
 
 	flags.Visit(func(f *pflag.Flag) {
@@ -347,6 +355,7 @@ func enabledFromFlags(flags *pflag.FlagSet) map[string]bool {
 		"twilio":     false,
 		"chanify":    false,
 		"ntfy":       false,
+		"linenotify": false,
 	}
 
 	// Visit flags that have been set.
@@ -457,6 +466,10 @@ func getNotifications(v *viper.Viper, services map[string]struct{}) []notificati
 
 	if _, ok := services["ntfy"]; ok {
 		notis = append(notis, getNtfy(title, message, v))
+	}
+
+	if _, ok := services["linenotify"]; ok {
+		notis = append(notis, getLINENotify(title, message, v))
 	}
 
 	return notis
